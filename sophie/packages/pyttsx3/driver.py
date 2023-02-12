@@ -218,6 +218,6 @@ class DriverProxy(object):
         within an external event loop.
         '''
         try:
-            next(self._iterator)
+            next(self._iterator)# type: ignore
         except StopIteration:
             pass
