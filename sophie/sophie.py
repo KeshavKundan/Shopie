@@ -15,7 +15,7 @@ if __name__ == "__main__":
         engine.connect('started-utterance', onStartTTS)
         engine.connect('started-word', onWordTTS)
         engine.connect('finished-utterance', onFinishTTS)
-        engine.setProperty('rate', 190) # Set Rate
+        engine.setProperty('rate', 150) # Set Rate
         engine.setProperty('voice', 'english-us') # Set Voice
         engine.setProperty('volume', 1.0) # Set Volume
         def speak(text):
@@ -31,4 +31,4 @@ if __name__ == "__main__":
         print("# Error:\n-> Driver not Initialising.\n-> Run command `sudo apt update && sudo apt install espeak ffmpeg libespeak1`.\n-> Try again later.")
         sys.exit(1)
     
-    printnspeak("Hi! Bro")
+    printnspeak("")
