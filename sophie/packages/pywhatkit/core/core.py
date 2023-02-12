@@ -23,10 +23,8 @@ def close_tab(wait_time: int = 2) -> None:
     """Closes the Currently Opened Browser Tab"""
 
     time.sleep(wait_time)
-    if system().lower() in ("windows", "linux"):
+    if system().lower() in ("linux"):
         hotkey("ctrl", "w")
-    elif system().lower() == "darwin":
-        hotkey("command", "w")
     else:
         raise Warning(f"{system().lower()} not supported!")
     press("enter")
@@ -84,30 +82,6 @@ def copy_image(path: str) -> None:
             raise Exception(
                 f"File Format {pathlib.Path(path).suffix} is not Supported!"
             )
-    elif system().lower() == "windows":
-        from io import BytesIO
-
-        import win32clipboard
-        from PIL import Image
-
-        image = Image.open(path)
-        output = BytesIO()
-        image.convert("RGB").save(output, "BMP")
-        data = output.getvalue()[14:]
-        output.close()
-        win32clipboard.OpenClipboard()
-        win32clipboard.EmptyClipboard()
-        win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
-        win32clipboard.CloseClipboard()
-    elif system().lower() == "darwin":
-        if pathlib.Path(path).suffix in (".jpg", ".jpeg", ".JPG", ".JPEG"):
-            os.system(
-                f"osascript -e 'set the clipboard to (read (POSIX file \"{path}\") as JPEG picture)'"
-            )
-        else:
-            raise Exception(
-                f"File Format {pathlib.Path(path).suffix} is not Supported!"
-            )
     else:
         raise Exception(f"Unsupported System: {system().lower()}")
 
@@ -129,9 +103,6 @@ def send_image(path: str, caption: str, receiver: str, wait_time: int) -> None:
                 typewrite(char)
     else:
         typewrite(" ")
-    if system().lower() == "darwin":
-        hotkey("command", "v")
-    else:
-        hotkey("ctrl", "v")
+    hotkey("ctrl", "v")
     time.sleep(1)
     press("enter")

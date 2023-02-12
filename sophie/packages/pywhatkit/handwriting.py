@@ -4,7 +4,7 @@ from pywhatkit.core import exceptions
 
 
 def text_to_handwriting(
-    string: str, save_to: str = "pywhatkit.png", rgb: tuple = (0, 0, 0)
+    string: str, save_to: str = "sophie_handwriting.png", rgb: tuple = (0, 0, 0)
 ) -> None:
     """Convert the given String to Handwritten Characters"""
 
@@ -19,4 +19,4 @@ def text_to_handwriting(
             file.write(data.content)
             file.close()
     elif 400 <= status_code <= 599:
-        raise exceptions.UnableToAccessApi("Unable to access Pywhatkit api right now")
+        raise exceptions.UnableToAccessApi("Unable to access Sophie api right now")

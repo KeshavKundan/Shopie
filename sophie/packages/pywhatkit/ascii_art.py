@@ -4,7 +4,7 @@ from PIL import Image
 
 
 def image_to_ascii_art(
-    img_path: str, output_file: Optional[str] = "pywhatkit_asciiart"
+    img_path: str, output_file: Optional[str] = "sophie_asciiart"
 ) -> str:
     """Convert an Image to ASCII Art"""
 
