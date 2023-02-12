@@ -10,5 +10,7 @@ if __name__ == "__main__":
         engine.setProperty('volume', 1.0) # Set Volume
     except ImportError:
         print("# Error:\n-> Text to Speech Driver not found.")
+        sys.exit(1)
     except RuntimeError:
         print("# Error:\n-> Driver not Initialising.\n-> Run command `sudo apt update && sudo apt install espeak ffmpeg libespeak1`.\n-> Try again later.")
+        sys.exit(1)
