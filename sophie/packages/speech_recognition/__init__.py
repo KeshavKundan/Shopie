@@ -32,13 +32,9 @@ __author__ = "Anthony Zhang (Uberi)"
 __version__ = "3.9.0"
 __license__ = "BSD"
 
-try:  # attempt to use the Python 2 modules
-    from urllib import urlencode
-    from urllib2 import Request, urlopen, URLError, HTTPError
-except ImportError:  # use the Python 3 modules
-    from urllib.parse import urlencode
-    from urllib.request import Request, urlopen
-    from urllib.error import URLError, HTTPError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 
 class WaitTimeoutError(Exception): pass
