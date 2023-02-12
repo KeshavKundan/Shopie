@@ -39,12 +39,7 @@ class DriverProxy(object):
         '''
         if driverName is None:
             # pick default driver for common platforms
-            if sys.platform == 'darwin':
-                driverName = 'nsss'
-            elif sys.platform == 'win32':
-                driverName = 'sapi5'
-            else:
-                driverName = 'espeak'
+            driverName = 'espeak'
         # import driver module
         name = 'pyttsx3.drivers.%s' % driverName
         self._module = importlib.import_module(name)
