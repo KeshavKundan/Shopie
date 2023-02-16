@@ -52,6 +52,9 @@ class TranscriptionNotReady(Exception): pass
 class TranscriptionFailed(Exception): pass
 
 
+class ModelNotFoundError(Exception): pass
+
+
 class AudioSource(object):
     def __init__(self):
         raise NotImplementedError("this is an abstract class")
@@ -1704,16 +1707,16 @@ class Recognizer(AudioSource):
             return result["text"]
 
             
-    def recognize_vosk(self, audio_data, language='en'):
-        from vosk import Model, KaldiRecognizer
+    def recognize_vosk(self, audio_data, language='en', model_loc="model"):
+        from vosk import Model, KaldiRecognizer, MODEL_DIRS
         
         assert isinstance(audio_data, AudioData), "Data must be audio data"
         
         if not hasattr(self, 'vosk_model'):
-            if not os.path.exists("model"):
-                return "Please download the model from https://github.com/alphacep/vosk-api/blob/master/doc/models.md and unpack as 'model' in the current folder."
+            if not os.path.exists(model_loc):
+                raise ModelNotFoundError("Please download the model from https://alphacephei.com/vosk/models and unpack in 'models' in the current folder.")
                 exit (1)
-            self.vosk_model = Model("model")
+            self.vosk_model = Model(model_loc)
 
         rec = KaldiRecognizer(self.vosk_model, 16000);
         

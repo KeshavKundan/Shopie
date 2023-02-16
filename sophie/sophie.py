@@ -1,23 +1,22 @@
 RUN = 1
 
 if __name__ == "__main__":
-    import sys
-    import urllib.request
+    from library import *
     from packages import pyttsx3
     from packages import speech_recognition as speechRecog
 
-    def onStartTTS(name):
-        print('starting', name)
-    def onWordTTS(name, location, length):
-        print('word', name, location, length)
-    def onFinishTTS(name, completed):
-        print('finishing', name, completed)
+    # def onStartTTS(name):
+    #     print('starting', name)
+    # def onWordTTS(name, location, length):
+    #     print('word', name, location, length)
+    # def onFinishTTS(name, completed):
+    #     print('finishing', name, completed)
 
     try:
         engine = pyttsx3.init('espeak')
-        engine.connect('started-utterance', onStartTTS)
-        engine.connect('started-word', onWordTTS)
-        engine.connect('finished-utterance', onFinishTTS)
+        # engine.connect('started-utterance', onStartTTS)
+        # engine.connect('started-word', onWordTTS)
+        # engine.connect('finished-utterance', )onFinishTTS
         engine.setProperty('rate', 132) # Set Rate
         engine.setProperty('voice', 'english-us') # Set Voice
         engine.setProperty('volume', 1.0) # Set Volume
@@ -34,11 +33,15 @@ if __name__ == "__main__":
         print("# Error:\n-> Driver not Initialising.\n-> Run command `sudo apt update && sudo apt install espeak ffmpeg libespeak1`.\n-> Try again later.")
         sys.exit(1)
     
-    def connect(host='http://google.com'):
+    def connect(host='http://google.com', fake=False):
         try:
             urllib.request.urlopen(host)
+            if fake:
+                return False
             return True
         except:
+            if fake:
+                return True
             return False
             
     def listen():
@@ -53,16 +56,21 @@ if __name__ == "__main__":
                 audio = r.listen(source, 5, 5)
                 try:
                     print("Got it! Now to recognize it...")
-                    value = r.recognize_google(audio, None, "en-US", 1, False, False)
+                    value = r.recognize_google(audio, None, 'en-US', 1, False, False) if connect(fake=True) else r.recognize_vosk(audio, 'en')
                     printnspeak("You said {}".format(value))
                     return value
                 except speechRecog.UnknownValueError:
                     return "Oops! Didn't catch that"
                 except speechRecog.RequestError as e:
                     return "Uh oh! Couldn't request results from Speech Recognition services; {0}".format(e)
+                except speechRecog.ModelNotFoundError as e:
+                    return "Err; {0}".format(e)
         except KeyboardInterrupt:
             pass
-    
+
+    def greet(time):
+        pass
+
     while(RUN):
         q = listen()
         qLower = str(q).lower()
