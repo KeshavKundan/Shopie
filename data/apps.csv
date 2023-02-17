@@ -1,0 +1,2 @@
+Application Name, Icon, Aliases, Type, Keyword, Command
+Grand Theft Auto San Andreas Multiplayer,,GTA SA MP;,Gamre, San Andreas & Multiplayer, env WINEPREFIX="/home/robopropc/.wine" wine-stable C:\\\\windows\\\\command\\\\start.exe /Unix /home/robopropc/.wine/dosdevices/c:/users/robopropc/Start\\ Menu/Programs/San\\ Andreas\\ Multiplayer/San\\ Andreas\\ Multiplayer.lnk
