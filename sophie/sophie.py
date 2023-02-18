@@ -5,10 +5,12 @@ if __name__ == "__main__":
     from packages import pyttsx3
     from packages import speech_recognition as speechRecog
 
-    language = (
-        ('English U.S.', 'english-us', 'english-us+f3', 'en-US'),
-        ('English India', 'english', 'english+f2', 'en-IN')
-    )
+    config = dotenv.dotenv_values(Path('data/.env'))
+
+    language = {
+        'English U.S.': ('english-us+f3', 'en-US'),
+        'English India': ('english+f2', 'en-IN')
+    }
 
     def onStartTTS(name):
         # print('starting', name)
@@ -26,7 +28,7 @@ if __name__ == "__main__":
         engine.connect('started-word', onWordTTS)
         engine.connect('finished-utterance', onFinishTTS)
         engine.setProperty('rate', 120) # Set Rate
-        engine.setProperty('voice', language[1][2]) # Set Voice
+        engine.setProperty('voice', language[str(config['LANGUAGE'])][0]) # Set Voice
         engine.setProperty('volume', 1.0) # Set Volume
         def speak(text):
             engine.say(text)
@@ -64,7 +66,7 @@ if __name__ == "__main__":
                 audio = r.listen(source, 5, 5)
                 try:
                     print("Got it! Now to recognize it...")
-                    value = r.recognize_google(audio, None, language[1][3], 1, False, False) if connect() else r.recognize_vosk(audio, language[1][3], 'models/en_us-small-0.15')
+                    value = r.recognize_google(audio, None, language[str(config['LANGUAGE'])][1], 1, False, False) if connect() else r.recognize_vosk(audio, language[str(config['LANGUAGE'])][1], 'models/en_us-small-0.15')
                     printnspeak("You said {}".format(value))
                     return value
                 except speechRecog.UnknownValueError:
@@ -78,14 +80,15 @@ if __name__ == "__main__":
 
     def greet(time):
         hour = datetime.datetime.now().hour
-        text = None
+        text = ''
         if time == 'welcome':
             if hour >= 0 and hour < 12:
-                text = random.choice(("Good Morning!", "Good day to you.", "Have a great day.", "Hello there!", "Wishing you the best for the day ahead.", "How are you this fine morning?", "What a pleasant morning we are having.", "How is your morning going so far?", "Morning!"))
-            if hour >= 12 and hour < 17:
+                text += random.choice(("Good Morning!", "Good day to you.", "Have a great day.", "Hello there!", "Wishing you the best for the day ahead.", "How are you this fine morning?", "What a pleasant morning we are having.", "How is your morning going so far?", "Morning!"))
+            elif hour >= 12 and hour < 17:
                 text = "Afternoon"
-            elif hour >= 17:
+            else:
                 text = "Evening"
+            text += ''
         return text
         pass
 
